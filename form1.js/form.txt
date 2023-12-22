@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div {
+            border: 2px solid black;
+            font-size: x-large;
+            margin: 30px;
+            padding: 30px;
+            width: 900px;
+            height: 550px;
+            background: linear-gradient(to right,#B2FEFA, #0ED2F7);
+            font-family: 'Times New Roman', Times, serifs;
+        }
+
+        input {
+            font-size: large;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        span {
+            color: red;
+        }
+    </style>
+
+    <script>
+        show = () => {
+            var name = document.getElementById("name").value;
+            var dob = document.getElementById("dob").value;
+            var email = document.getElementById("email").value;
+            var luckyNumber = document.getElementById("luckyNumber").value;
+
+            var gender;
+            if (document.getElementById("male").checked) {
+                gender = "male";
+            } else {
+                gender = "female";
+            }
+
+            if (name.length < 10) {
+                document.getElementById("errorname").innerHTML = "Name must be of max 10 characters!!!";
+                return;
+            }
+
+            if (!/^[A-Za-z]+$/.test(name)) {
+                document.getElementById("errorname").innerHTML = "Name should contain only alphabets.";
+                return;
+            }
+
+            if (luckyNumber.length != 4) {
+                document.getElementById("errorluckynumber").innerHTML = "Lucky number should be of 4 digits!!! ";
+                return;
+            }
+
+            var favoriteFoods = [];
+            var checkboxes = document.querySelectorAll('input[name="food"]:checked');
+            checkboxes.forEach(checkbox => {
+                favoriteFoods.push(checkbox.id);
+            });
+
+            var userDetails = {
+                Name: name,
+                DateOfBirth: dob,
+                Email: email,
+                LuckyNumber: luckyNumber,
+                Gender: gender,
+                Food: favoriteFoods
+            }
+
+            var userDetailsWindow = window.open('', '_blank');
+            userDetailsWindow.document.write("<h2>USER DETAILS</h2>")
+            userDetailsWindow.document.write("<p2 style=font-size:large>Name : " + name + "</p2><br>")
+            userDetailsWindow.document.write("<p2 style=font-size:large>Date Of Birth : " + dob + "</p2><br>")
+            userDetailsWindow.document.write("<p2 style=font-size:large>Email : " + email + "</p2><br>")
+            userDetailsWindow.document.write("<p2 style=font-size:large>Lucky Number : " + luckyNumber + "</p2><br>")
+            userDetailsWindow.document.write("<p2 style=font-size:large>Gender : " + gender + "</p2><br>")
+            userDetailsWindow.document.write("<p2 style=font-size:large>Food : " + favoriteFoods + "</p2>")
+        }
+
+        reset = () => {
+            var spans = document.getElementsByTagName("span");
+            for (var i = 0; i < spans.length; i++) {
+                spans[i].innerHTML = "";
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <div>
+        <form>
+            <table>
+                <tr>
+                    <td><label for="name">Name : </label></td>
+                    <td><input type="text" id="name" required maxlength="10"><span style="margin-left: 10px;" id="errorname"></span></td>
+                </tr>
+                <tr>
+                    <td><label for="dob">Birth Date : </label></td><span id="errordob"></span>
+                    <td><input type="date" required id="dob"></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email : </label></td><span id="erroremail"></span>
+                    <td><input type="text" required id="email"></td>
+                </tr>
+                <tr>
+                    <td><label for="gender">Gender : </label></td><span id="errorgender"></span>
+                    <td><input type="radio" name="gender" required id="male" value="male"><label for="male">Male</label><br>
+                        <input type="radio" name="gender" required id="female"><label for="female">Female</label></td>
+                </tr>
+                <tr>
+                    <td><label for="luckyNumber">Lucky Number : </label></td>
+                    <td><input type="number" id="luckyNumber" maxlength="4"><span style="margin-left: 10px;" id="errorluckynumber"></span></td>
+                </tr>
+                <tr>
+                    <td><label for="Favouritefood">Favourite Food : </label></td><span id="errorfood"></span>
+                    <td><input type="checkbox" id="pizza" name="food"><label for="pizza">Pizza</label><br>
+                        <input type="checkbox" id="pasta" name="food"><label for="pasta">Pasta</label><br>
+                        <input type="checkbox" id="burger" name="food"><label for="burger">Burger</label>
+                    </td>
+                </tr>
+            </table>
+            <button type="button" class="btn btn-primary" onclick="show()">Send Data</button>
+            <button type="reset" class="btn btn-primary" onclick="reset()">Reset</button>
+        </form>
+    </div>
+</body>
+</html>
