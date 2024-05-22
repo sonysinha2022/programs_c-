@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1>CONFIRMATION PAGE</h1>
+    <div id="otpConfirmationMessage"></div>
+    <div class="container">
+        <form id="otpSubmissionForm">
+            <h1 class="center">OTP CONFIRMATION</h1>
+            <label for="otp">Enter OTP:</label>
+            <input type="text" id="otp" maxlength="4" required><br>
+            <button type="button" class="btnformatter" onclick="validateOTP()">VALIDATE OTP</button>
+        </form>
+    </div>
+    <script>
+        //Fetching Full name and Email values from local storage
+        var fullname = localStorage.getItem("fullName");
+        var email = localStorage.getItem("email");
+        // Fetch first name from full name
+        const firstName = fullname.substring(0, fullname.indexOf(' '));
+        // random number generation
+        const randomNumber = Math.floor(1000 + Math.random() * 9000);
+        console.log('Random Number:', randomNumber);
+        var chances = 0;
+        // Function to validate OTP
+        function validateOTP() {
+            const otp = document.getElementById('otp').value;
+            if (otp === '') {
+                alert('Please enter the OTP.');
+                return;
+            }
+
+            // Check if OTP is exactly 4 digits
+            if (otp.length !== 4) {
+                alert('Please enter a 4-digit OTP.');
+                return;
+            }
+            chances++;
+            if (otp === randomNumber.toString()) {
+                // If OTP matched, OTP Confirmation Message generated
+                const otpConfirmationMessage = document.getElementById('otpConfirmationMessage');
+                otpConfirmationMessage.textContent = `Dear ${firstName}, Your OTP is verified successfully,You will be redirected to pixel6.co(HomePage)`;
+                // Removing OTP form
+                document.getElementById('otpSubmissionForm').style.display = 'none';
+                // Redirecting to pixel6.co after 1 second
+                setTimeout(function () {
+                    window.location.href = "https://www.indiatoday.in/";
+                }, 1000);
+            } else {
+                // If OTP did not match with Random Number
+                if (chances < 3) {
+                    alert(`OTP entered does not match, You have ${3 - chances} chances left only.`);
+                } else {
+                    // If OTP did not match with Random Number even after 3 chances
+                    const otpConfirmationMessage = document.getElementById('otpConfirmationMessage');
+                    otpConfirmationMessage.textContent = `Entered OTP is incorrect, you will be redirected to 404(Page Not Found)`;
+                    // Removing OTP form
+                    document.getElementById('otpSubmissionForm').style.display = 'none';
+                    // Redirect to Status Code 404(Page not Found) after 1 second
+                    setTimeout(function () {
+                        window.location.href = "https://www.google.com/404";
+                    }, 1000);
+                }
+            }
+        }
+        const otpConfirmationMessage = document.getElementById('otpConfirmationMessage');
+        otpConfirmationMessage.textContent = `Dear ${firstName}, Thank you for your inquiry. A 4-digit verification number has been sent to your email(${email}),please enter it in the following box and submit for confirmation`;
+    </script>
+</body>
+</html>

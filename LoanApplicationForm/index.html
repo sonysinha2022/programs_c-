@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Form Submission</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <form id="loanApplicationForm">
+            <h1 class="center">LOAN APPLICATION FORM</h1>
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required placeholder="Enter your Full Name"
+                onchange="onValidateFullName()"><br>
+
+            <label for="email">Email Id:</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your Email ID"
+                onchange="onValidateEmail()">
+            <br>
+            <label for="pan">PAN Number:</label>
+            <input type="text" id="pan" name="pan" required placeholder="Enter your PAN number"
+                onchange="onValidatePan()">
+            <br>
+            <label for="loanAmount">Loan Amount:</label>
+            <input type="text" id="loanAmount" name="loanAmount" min="1" max="999999999" required
+                placeholder="Enter the Loan Amount" onchange="onValidateLoanAmount()">
+            <span id="loanAmountinWords"></span>
+            </br>
+            <input type="button" id="submitBtn" value="SUBMIT" class="btnformatter" onclick="OnSubmit()">
+        </form>
+    </div>
+    <script src="validationPage.js"></script>
+    <script>
+        // Converting Loan Amount entered to words
+        var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+        var b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+        function convertToWords(num) {
+            if ((num = num.toString()).length > 9) return 'overflow';
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return; var strNum = '';
+            strNum += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+            strNum += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+            strNum += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+            strNum += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+            strNum += (n[5] != 0) ? ((strNum != '') ? 'And ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'Only ' : '';
+            return strNum;
+        }
+        document.getElementById('loanAmount').onkeyup = function () {
+            document.getElementById('loanAmountinWords').innerHTML = convertToWords(document.getElementById('loanAmount').value);
+        };
+    </script>
+</body>
+</html>
